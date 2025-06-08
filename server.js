@@ -5,7 +5,7 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import revenueRoutes from "./routes/revenue.routes.js";
-import { connectRedis } from "./utils/redis.js";
+// import { connectRedis } from "./utils/redis.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 
@@ -40,7 +40,7 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Redis Connection
-connectRedis();
+// connectRedis();
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
