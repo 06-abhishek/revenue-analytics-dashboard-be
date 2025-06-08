@@ -1,12 +1,12 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
-import redisClient from "../utils/redis.js";
+// import redisClient from "../utils/redis.js";
 
-const CACHE_EXPIRY = 60 * 60; // 1 hour
+// const CACHE_EXPIRY = 60 * 60; // 1 hour
 
 export const getMonthlyRevenue = async (year) => {
   const cacheKey = `monthlyRevenue:${year}`;
-  const cached = await redisClient.get(cacheKey);
+  // const cached = await redisClient.get(cacheKey);
   if (cached) return JSON.parse(cached);
 
   const start = new Date(`${year}-01-01`);
@@ -26,20 +26,20 @@ export const getMonthlyRevenue = async (year) => {
     { $sort: { _id: 1 } },
   ]);
 
-  await redisClient.setEx(cacheKey, CACHE_EXPIRY, JSON.stringify(data));
+  // await redisClient.setEx(cacheKey, CACHE_EXPIRY, JSON.stringify(data));
   return data;
 };
 
 export const getMonthlyDetails = async (year, month) => {
   const cacheKey = `monthlyDetails:${year}-${month}`;
-  const cached = await redisClient.get(cacheKey);
+  // const cached = await redisClient.get(cacheKey);
   if (cached) return JSON.parse(cached);
 
   const start = new Date(`${year}-${month}-01`);
   const end = new Date(`${year}-${+month + 1}-01`);
 
   const data = await Order.find({ date: { $gte: start, $lt: end } });
-  await redisClient.setEx(cacheKey, CACHE_EXPIRY, JSON.stringify(data));
+  // await redisClient.setEx(cacheKey, CACHE_EXPIRY, JSON.stringify(data));
   return data;
 };
 
